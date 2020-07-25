@@ -1,4 +1,4 @@
-package io.kang.akka.iot.part1;
+package io.kang.akka.iot.part1.actorhierarchy;
 
 import akka.actor.typed.ActorSystem;
 import akka.actor.typed.ActorRef;

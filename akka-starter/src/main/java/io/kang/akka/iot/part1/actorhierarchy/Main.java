@@ -1,4 +1,4 @@
-package io.kang.akka.iot.part1;
+package io.kang.akka.iot.part1.actorhierarchy;
 
 import akka.actor.typed.ActorRef;
 import akka.actor.typed.Behavior;
@@ -7,7 +7,7 @@ import akka.actor.typed.javadsl.ActorContext;
 import akka.actor.typed.javadsl.Behaviors;
 import akka.actor.typed.javadsl.Receive;
 
-public class Main extends AbstractBehavior<String> {
+class Main extends AbstractBehavior<String> {
 
     public static Behavior<String> create() {
         return Behaviors.setup(Main::new);
