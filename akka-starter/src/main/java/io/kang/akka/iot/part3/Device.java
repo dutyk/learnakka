@@ -13,7 +13,7 @@ public class Device extends AbstractBehavior<Device.Command> {
     public interface Command {}
 
     public static final class RecordTemperature implements Command {
-        final long requestId;
+        public final long requestId;
         final double value;
         final ActorRef<TemperatureRecorded> replyTo;
 
@@ -25,7 +25,7 @@ public class Device extends AbstractBehavior<Device.Command> {
     }
 
     public static final class TemperatureRecorded {
-        final long requestId;
+        public final long requestId;
 
         public TemperatureRecorded(long requestId) {
             this.requestId = requestId;
@@ -74,8 +74,13 @@ public class Device extends AbstractBehavior<Device.Command> {
         return newReceiveBuilder()
                 .onMessage(RecordTemperature.class, this::onRecordTemperature)
                 .onMessage(ReadTemperature.class, this::onReadTemperature)
+                .onMessage(Passivate.class, m -> Behaviors.stopped())
                 .onSignal(PostStop.class, signal -> onPostStop())
                 .build();
+    }
+
+    public static enum Passivate implements Command {
+        INSTANCE
     }
 
     private Behavior<Command> onRecordTemperature(RecordTemperature r) {
