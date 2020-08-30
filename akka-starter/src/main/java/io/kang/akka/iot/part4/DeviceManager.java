@@ -8,6 +8,7 @@ import akka.actor.typed.javadsl.ActorContext;
 import akka.actor.typed.javadsl.Behaviors;
 import akka.actor.typed.javadsl.Receive;
 import io.kang.akka.iot.part3.Device;
+import io.kang.akka.iot.part5.DeviceGroupQuery;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -125,5 +126,74 @@ public class DeviceManager extends AbstractBehavior<DeviceManager.Command> {
     private DeviceManager onPostStop() {
         getContext().getLog().info("DeviceManager stopped");
         return this;
+    }
+
+    // query protocol
+    public static final class RequestAllTemperatures
+            implements DeviceGroupQuery.Command, DeviceGroup.Command, Command {
+
+        final long requestId;
+        final String groupId;
+        final ActorRef<RespondAllTemperatures> replyTo;
+
+        public RequestAllTemperatures(
+                long requestId, String groupId, ActorRef<RespondAllTemperatures> replyTo) {
+            this.requestId = requestId;
+            this.groupId = groupId;
+            this.replyTo = replyTo;
+        }
+    }
+
+    public static final class RespondAllTemperatures {
+        public final long requestId;
+        public final Map<String, TemperatureReading> temperatures;
+
+        public RespondAllTemperatures(long requestId, Map<String, TemperatureReading> temperatures) {
+            this.requestId = requestId;
+            this.temperatures = temperatures;
+        }
+    }
+
+    public interface TemperatureReading {}
+
+    public static final class Temperature implements TemperatureReading {
+        public final double value;
+
+        public Temperature(double value) {
+            this.value = value;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Temperature that = (Temperature) o;
+
+            return Double.compare(that.value, value) == 0;
+        }
+
+        @Override
+        public int hashCode() {
+            long temp = Double.doubleToLongBits(value);
+            return (int) (temp ^ (temp >>> 32));
+        }
+
+        @Override
+        public String toString() {
+            return "Temperature{" + "value=" + value + '}';
+        }
+    }
+
+    public enum TemperatureNotAvailable implements TemperatureReading {
+        INSTANCE
+    }
+
+    public enum DeviceNotAvailable implements TemperatureReading {
+        INSTANCE
+    }
+
+    public enum DeviceTimedOut implements TemperatureReading {
+        INSTANCE
     }
 }
