@@ -6,6 +6,7 @@
     <modules>
         <module>akka-starter</module>
         <module>akka-cluster</module>
+        <module>akka-actor</module>
     </modules>
 
     <parent>

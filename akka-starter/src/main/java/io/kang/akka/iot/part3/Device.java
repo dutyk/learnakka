@@ -33,8 +33,8 @@ public class Device extends AbstractBehavior<Device.Command> {
     }
 
     public static final class ReadTemperature implements Command {
-        final long requestId;
-        final ActorRef<RespondTemperature> replyTo;
+        public final long requestId;
+        public final ActorRef<RespondTemperature> replyTo;
 
         public ReadTemperature(long requestId, ActorRef<RespondTemperature> replyTo) {
             this.requestId = requestId;
