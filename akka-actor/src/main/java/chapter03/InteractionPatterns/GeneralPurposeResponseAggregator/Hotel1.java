@@ -3,7 +3,6 @@ package chapter03.InteractionPatterns.GeneralPurposeResponseAggregator;
 import akka.actor.typed.ActorRef;
 import akka.actor.typed.Behavior;
 import akka.actor.typed.javadsl.Behaviors;
-
 import java.math.BigDecimal;
 
 public class Hotel1 {
