@@ -6,7 +6,6 @@ import akka.actor.typed.ActorRef;
 import org.junit.ClassRule;
 import org.junit.Test;
 import chapter03.InteractionPatterns.PerSessionChildActor.Home.*;
-
 import static junit.framework.TestCase.assertEquals;
 
 public class HomeTest {
