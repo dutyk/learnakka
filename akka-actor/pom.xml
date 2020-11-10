@@ -11,5 +11,12 @@
 
     <artifactId>akka-actor</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-cluster-sharding-typed_${scala.binary.version}</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
