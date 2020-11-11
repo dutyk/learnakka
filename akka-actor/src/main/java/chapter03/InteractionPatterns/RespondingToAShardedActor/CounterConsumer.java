@@ -35,7 +35,7 @@ public class CounterConsumer extends AbstractBehavior<CounterConsumer.Command> {
     }
 
     private Behavior<Command> onNewCount(NewCount newCount) {
-        getContext().getLog().info("{}", newCount.value);
+        getContext().getLog().info("newCount:{}", newCount.value);
         return this;
     }
 

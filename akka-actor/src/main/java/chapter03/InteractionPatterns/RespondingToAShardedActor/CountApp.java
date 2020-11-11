@@ -1,31 +1,28 @@
 package chapter03.InteractionPatterns.RespondingToAShardedActor;
 
+import akka.actor.typed.ActorRef;
 import akka.actor.typed.ActorSystem;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
-import java.util.Collections;
-
+import akka.actor.typed.javadsl.Behaviors;
+import akka.cluster.sharding.typed.ShardingEnvelope;
+import akka.cluster.sharding.typed.javadsl.ClusterSharding;
+import akka.cluster.sharding.typed.javadsl.Entity;
+import akka.cluster.sharding.typed.javadsl.EntityRef;
 
 public class CountApp {
-    public static void main(String[] args) {
-        Config config = configWithPort(2551);
-        ActorSystem counterConsumerActor = ActorSystem.create(Guardian.create(), "ClusterSystem", config);
+    public static void main(String[] args) throws InterruptedException {
+        ActorSystem system = ActorSystem.create(Behaviors.empty(), "ClusterSystem");
 
-//        config = configWithPort(2552);
-//        ActorSystem counterConsumerActor1 = ActorSystem.create(Guardian.create(), "ClusterSystem", config);
+        // #sharding-extension
+        ClusterSharding sharding = ClusterSharding.get(system);
 
-        config = configWithPort(0);
-        ActorSystem counterActor = ActorSystem.create(Counter.create(), "ClusterSystem", config);
+        ActorRef<ShardingEnvelope<Counter.Command>> shardRegion =
+                sharding.init(Entity.of(Counter.typeKey, ctx -> Counter.create()));
 
+        ActorRef<ShardingEnvelope<CounterConsumer.Command>> shardRegion1 =
+                sharding.init(Entity.of(CounterConsumer.typeKey, ctx -> CounterConsumer.create()));
+
+        EntityRef<Counter.Command> counterActor = sharding.entityRefFor(Counter.typeKey, "counter-1");
         counterActor.tell(Counter.Increment.INSTANCE);
-        counterActor.tell(Counter.Increment.INSTANCE);
-        counterActor.tell(Counter.Increment.INSTANCE);
-        //counterActor.tell(new Counter.GetValue("example-sharded-response"));
-
-    }
-    private static Config configWithPort(int port) {
-        return ConfigFactory.parseMap(
-                Collections.singletonMap("akka.remote.artery.canonical.port", Integer.toString(port))
-        ).withFallback(ConfigFactory.load());
+        counterActor.tell(new Counter.GetValue("counterConsumer-1"));
     }
 }

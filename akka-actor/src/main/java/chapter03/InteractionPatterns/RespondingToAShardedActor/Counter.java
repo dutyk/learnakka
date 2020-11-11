@@ -7,9 +7,13 @@ import akka.actor.typed.javadsl.Behaviors;
 import akka.actor.typed.javadsl.Receive;
 import akka.cluster.sharding.typed.javadsl.ClusterSharding;
 import akka.cluster.sharding.typed.javadsl.EntityRef;
+import akka.cluster.sharding.typed.javadsl.EntityTypeKey;
 
 // a sharded counter that sends responses to another sharded actor
 public class Counter extends AbstractBehavior<Counter.Command> {
+
+    public static EntityTypeKey<Command> typeKey =
+            EntityTypeKey.create(Command.class, "example-sharded-counter");
 
     public interface Command {}
 
@@ -47,7 +51,7 @@ public class Counter extends AbstractBehavior<Counter.Command> {
 
     private Behavior<Command> onIncrement() {
         value++;
-        getContext().getLog().info("+++++++++++++++++++");
+        getContext().getLog().info("value:{}, actor:{}", value, getContext().getSelf().path());
         return this;
     }
 
