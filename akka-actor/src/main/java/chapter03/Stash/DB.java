@@ -1,7 +1,6 @@
 package chapter03.Stash;
 
 import akka.Done;
-
 import java.util.concurrent.CompletionStage;
 
 public interface DB {

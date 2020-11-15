@@ -1,7 +1,6 @@
 package chapter03.Stash;
 
 import akka.Done;
-
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,8 +17,6 @@ public class DBImpl implements DB {
             e.printStackTrace();
         }
         DBMap.put(id, value);
-        System.out.println("----save-----");
-
         return CompletableFuture.completedFuture(Done.done());
     }
 
@@ -30,7 +27,6 @@ public class DBImpl implements DB {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("----load-----");
         return CompletableFuture.completedFuture(DBMap.get(id));
     }
 }
