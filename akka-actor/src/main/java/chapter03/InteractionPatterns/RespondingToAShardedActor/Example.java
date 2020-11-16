@@ -15,7 +15,8 @@ import java.util.Collections;
 
 public class Example {
     public static void main(String[] args) {
-        ActorSystem system = ActorSystem.create(Behaviors.empty(), "ClusterSystem");
+        Config config = ConfigFactory.load("application-remote");
+        ActorSystem system = ActorSystem.create(Behaviors.empty(), "ClusterSystem", config);
 
         // #sharding-extension
         ClusterSharding sharding = ClusterSharding.get(system);
@@ -39,6 +40,6 @@ public class Example {
     private static Config configWithPort(int port) {
         return ConfigFactory.parseMap(
                 Collections.singletonMap("akka.remote.artery.canonical.port", Integer.toString(port))
-        ).withFallback(ConfigFactory.load());
+        ).withFallback(ConfigFactory.load("application-remote"));
     }
 }
