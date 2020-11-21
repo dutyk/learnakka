@@ -150,9 +150,9 @@ public interface LoggingDocExamples {
     }
 
     //todo
-    static void logging(ActorRef<Message> ref) {
+    static void logging() {
         ActorSystem<Void> system = ActorSystem.create(Behaviors.empty(), "notUsed");
-
+        ActorRef<Message> ref = null;
         // #test-logging
         LoggingTestKit.info("Received message")
                 .expect(

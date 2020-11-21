@@ -2,11 +2,31 @@ package chapter03.test.AsynchronousTesting;
 
 import akka.actor.typed.ActorRef;
 import akka.actor.typed.Behavior;
+import akka.actor.typed.javadsl.AbstractBehavior;
+import akka.actor.typed.javadsl.ActorContext;
 import akka.actor.typed.javadsl.Behaviors;
+import akka.actor.typed.javadsl.Receive;
 
 import java.util.Objects;
 
-public class Echo {
+public class Echo extends AbstractBehavior<Echo.Ping> {
+    public Echo(ActorContext<Ping> context) {
+        super(context);
+    }
+
+    @Override
+    public Receive<Ping> createReceive() {
+        return newReceiveBuilder().onMessage(
+                Ping.class,
+                ping -> {
+                    System.out.println("ping");
+                    getContext().getLog().info("Received message: {}", ping.message);
+                    ping.replyTo.tell(new Pong(ping.message));
+                    return Behaviors.same();
+                })
+                .build();
+    }
+
     public static class Ping {
         public final String message;
         public final ActorRef<Pong> replyTo;
@@ -38,13 +58,6 @@ public class Echo {
     }
 
     public static Behavior<Ping> create() {
-        return Behaviors.receive(Ping.class)
-                .onMessage(
-                        Ping.class,
-                        ping -> {
-                            ping.replyTo.tell(new Pong(ping.message));
-                            return Behaviors.same();
-                        })
-                .build();
+        return Behaviors.setup(Echo::new);
     }
 }
