@@ -4,7 +4,7 @@ import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.stream.scaladsl.{Sink, Source}
 
-object Tweets {
+object Tweets extends App {
     final case class Author(handle: String)
 
     final case class Hashtag(name: String)
