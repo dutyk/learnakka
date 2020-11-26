@@ -11,6 +11,11 @@
 
     <artifactId>akka-stream</artifactId>
 
+    <properties>
+        <java.version>1.8</java.version>
+        <akka.version>2.6.10</akka.version>
+        <scala.binary.version>2.12</scala.binary.version>
+    </properties>
 
     <dependencies>
         <dependency>
