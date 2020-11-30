@@ -23,5 +23,11 @@
             <artifactId>akka-stream_${scala.binary.version}</artifactId>
             <version>${akka.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_2.13</artifactId>
+            <version>3.2.3</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
