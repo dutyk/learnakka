@@ -1,4 +1,4 @@
-package io.kang.akka.stream.chapter01.StreamsQuickstartGuide
+package io.kang.akka.stream.chapter04.graph
 
 import akka.actor.ActorSystem
 import akka.stream.ClosedShape

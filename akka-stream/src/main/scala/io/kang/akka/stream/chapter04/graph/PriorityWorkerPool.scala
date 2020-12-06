@@ -1,8 +1,9 @@
-package io.kang.akka.stream.chapter01.StreamsQuickstartGuide
+package io.kang.akka.stream.chapter04.graph
 
 import akka.NotUsed
-import akka.stream._
-import akka.stream.scaladsl._
+import akka.stream.Graph
+import akka.stream.scaladsl.{Balance, Flow, GraphDSL, Merge, MergePreferred}
+import io.kang.akka.stream.chapter01.StreamsQuickstartGuide.PriorityWorkerPoolShape
 
 object PriorityWorkerPool {
   def apply[In, Out](

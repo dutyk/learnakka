@@ -9,7 +9,7 @@ import akka.stream.javadsl.*;
 
 import java.util.concurrent.CompletionStage;
 
-public class GraphApp12 {
+public class GraphApp1_2 {
     public static void main(String[] args) {
         final ActorSystem system = ActorSystem.create("Graphs");
 

@@ -4,9 +4,9 @@ import akka.Done;
 import akka.NotUsed;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import akka.stream.javadsl.Broadcast;
-import akka.stream.javadsl.Sink;
-import akka.stream.javadsl.Source;
+import akka.stream.FlowShape;
+import akka.stream.SourceShape;
+import akka.stream.javadsl.*;
 import akka.testkit.javadsl.TestKit;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -52,5 +52,4 @@ public class GraphAppTest {
         probe.expectMsgEquals(1);
         probe.expectMsgEquals(2);
     }
-
 }
